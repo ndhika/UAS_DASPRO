@@ -4,6 +4,7 @@
 // Nama: Ayudhya Naja Adinda (A11.2025.16249)
 #include <iostream>
 #include <string>
+#include <iomanip>
 using namespace std;
 
 // KAMUS: 
@@ -151,7 +152,7 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
         return; 
     }
 
-    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlah << ") ---" << endl;
+    cout << "\n===== Input Data Kamar Baru (Index ke-" << jumlah << ") =====" << endl;
 
     cout << "Nomor Kamar                            : ";
     cin >> arr[jumlah].nomor;
@@ -169,7 +170,6 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
         if (arr[jumlah].harga == 0) {
             cout << ">> WARNING: Tipe salah/typo! Silakan ketik ulang.\n" << endl;
         }
-
     // Syarat mengulang: Jika harga masih 0, kembali ke atas (do)
     } while (arr[jumlah].harga == 0);
 
@@ -181,67 +181,60 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     } else {
         cout << arr[jumlah].harga << endl;
     }
-
-    int pilStatus;
-    cout << "Status Kamar saat ini                  :" << endl;
-    cout << "  1. Kosong" << endl;
-    cout << "  2. Dipesan" << endl;
-    cout << "Pilih (1 / 2): ";
-    cin >> pilStatus;
-
-    if (pilStatus == 1) {
-        arr[jumlah].status = true;
-    } else {
-        arr[jumlah].status = false;
-    }
+        
+    arr[jumlah].status = false; // Set status kamar jadi kosong
+    arr[jumlah].namaPemesan = "-";
+    cout << "Status                                 : Kosong" << endl;
 
     jumlah++; // Menambah jumlah data agar input berikutnya masuk ke index baru
     
-    cout << ">> Sukses! Data kamar berhasil disimpan." << endl;
+    cout << "===== Sukses! Data kamar berhasil disimpan. =====" << endl;
 }
 
 // [AREA KERJA BAYIK]
 void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
     // LOGIKA SORTING:
-    // Gunakan Nested Loop (boleh While dalam While, atau For dalam For)
+    // Gunakan Nested Loop (While dalam While)
     // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
     // Jika ascending = false, tukar jika (kiri.harga < kanan.harga)
 
     // Prosedur Sort
     // opsi 1 = Berdasarkan Harga
     // opsi 2 = Berdasarkan Nomor Kamar
-    // for (int i = 0; i < jumlah - 1; i++) {
-    //     for (int j = 0; j < jumlah - i - 1; j++) {
-            
-    //         bool tukar = false;
-            
-    //         // --- LOGIKA PEMBANDING ---
-    //         long nilaiKiri, nilaiKanan;
+    int i = 0; 
 
-    //         // Tentukan apa yang mau dibandingkan (Harga atau Nomor?)
-    //         if (opsi == 1) { 
-    //             nilaiKiri = arr[j].harga;
-    //             nilaiKanan = arr[j+1].harga;
-    //         } else { 
-    //             nilaiKiri = arr[j].nomor;
-    //             nilaiKanan = arr[j+1].nomor;
-    //         }
+    while (i < jumlah - 1) {
+        
+        int j = 0;
 
-    //         // Cek Ascending (Kecil ke Besar) atau Descending (Besar ke Kecil)
-    //         if (ascending) {
-    //             if (nilaiKiri > nilaiKanan) tukar = true;
-    //         } else {
-    //             if (nilaiKiri < nilaiKanan) tukar = true;
-    //         }
+        while (j < jumlah - i - 1) {           
+            bool tukar = false;
+            long nilaiKiri, nilaiKanan;
 
-    //         // --- LOGIKA SWAP (TUKAR POSISI) ---
-    //         if (tukar) {
-    //             Kamar temp = arr[j];   // Simpan data kiri di temp
-    //             arr[j] = arr[j + 1];   // Pindahkan kanan ke kiri
-    //             arr[j + 1] = temp;     // Masukkan temp ke kanan
-    //         }
-    //     }
-    // }    
+            // --- LOGIKA PEMBANDING (Sama Persis) ---
+            if (opsi == 1) { // Berdasarkan Harga
+                nilaiKiri = arr[j].harga;
+                nilaiKanan = arr[j+1].harga;
+            } else { // Berdasarkan Nomor
+                nilaiKiri = arr[j].nomor;
+                nilaiKanan = arr[j+1].nomor;
+            }
+
+            if (ascending) {
+                if (nilaiKiri > nilaiKanan) tukar = true;
+            } else {
+                if (nilaiKiri < nilaiKanan) tukar = true;
+            }
+
+            if (tukar) {
+                Kamar temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+            j++;
+        }
+        i++;
+    }   
 }
 
 // [AREA KERJA BAYIK]
