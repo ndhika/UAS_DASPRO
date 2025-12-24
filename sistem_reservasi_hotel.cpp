@@ -25,19 +25,19 @@ int pilihan;
 void dataKamar(Kamar arr[]);
 
 // [TUGAS BAYIK] - Fitur Input Manual (Nambah kamar baru)
-// PENTING: Pakai int &jumlah (pass by reference) biar jumlah di main ikut berubah
-void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas);
+// PENTING: Pakai int &jumlahData (pass by reference) biar jumlahData di main ikut berubah
+void inputKamar(Kamar arr[], int &jumlahData, int maxKapasitas);
 
 // [TUGAS BAYIK] - Sorting & Perhitungan
 // Parameter 'ascending': true buat termurah, false buat termahal
-void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending);
+void bubbleSortKamar(Kamar arr[], int jumlahData, bool ascending);
 long hitungTotalRekursif(long hargaPerMalam, int durasi);
 
 // [TUGAS MAS] - Tampil & Proses Transaksi
-void tampilkanDaftar(Kamar arr[], int jumlah);
+void tampilkanDaftar(Kamar arr[], int jumlahData);
 // Menerima ALAMAT memori kamar (*ptrKamar) biar perubahan nempel permanen
 void prosesBooking(Kamar *ptrKamar);
-void prosesCheckOut(Kamar arr[], int jumlah);
+void prosesCheckOut(Kamar arr[], int jumlahData);
 
 
 // DISKRIPSI: 
@@ -60,11 +60,25 @@ int main() {
 
         switch (pilihan) {
             case 1:
-                // [LOGIKA MAS]
-                // 1. Tanya user: 1. Termurah (Ascending), 2. Termahal (Descending)
-                // 2. if (pilih == 1) bubbleSortKamar(hotel, jumlahData, true);
-                // 3. else bubbleSortKamar(hotel, jumlahData, false);
-                // 4. tampilkanDaftar(hotel, jumlahData);
+            // 1. Tanya user: 1. Termurah (Ascending), 2. Termahal (Descending)
+            // 2. if (pilih == 1) bubbleSortKamar(hotel, jumlahData, true);
+            // 3. else bubbleSortKamar(hotel, jumlahData, false);
+            // 4. tampilkanDaftar(hotel, jumlahData);
+            // [LOGIKA MAS]
+            cout << "\n--- Mau cari kamar yang ---" << endl;
+            cout << "1. Termurah" << endl;
+            cout << "2. Termahal" << endl;
+            cin >> pilihan;
+            if (pilihan == 1) {
+                cout << "tes" << endl;
+                //     bubbleSortKamar(hotel, jumlahData, true);
+            } else {
+                //    bubbleSortKamar(hotel, jumlahData, false);
+                cout << "tes" << endl;
+
+            }
+            tampilkanDaftar(hotel, jumlahData);
+
                 break;
 
             case 2:
@@ -130,56 +144,56 @@ void dataKamar(Kamar arr[]) {
 
     int jumlahData = 0;
     do {
-        arr[jumlahData] = arr[jumlahData];
+        arr[jumlahData] = hotel[jumlahData];
         jumlahData++;
     } while (jumlahData < 5);
 }
 
 // [AREA KERJA BAYIK]
-void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
+void inputKamar(Kamar arr[], int &jumlahData, int maxKapasitas) {
     // LOGIKA:
-    // 1. Cek apakah (jumlah >= maxKapasitas)? Jika ya, cout "Penuh" & return.
+    // 1. Cek apakah (jumlahData >= maxKapasitas)? Jika ya, cout "Penuh" & return.
     
-    // 2. Input data ke dalam array index ke-[jumlah] (karena index mulai dari 0)
-    //    Contoh: cin >> arr[jumlah].nomor;
+    // 2. Input data ke dalam array index ke-[jumlahData] (karena index mulai dari 0)
+    //    Contoh: cin >> arr[jumlahData].nomor;
     
-    // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
+    // 3. Set default: arr[jumlahData].status = 0; arr[jumlahData].namaTamu = "-";
     
-    // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
-    if (jumlah >= maxKapasitas) {
+    // 4. JANGAN LUPA: jumlahData++; (Menambah counter data)
+    if (jumlahData >= maxKapasitas) {
         cout << "Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
         return; 
     }
 
-    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlah << ") ---" << endl;
+    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlahData << ") ---" << endl;
 
     cout << "Nomor Kamar                            : ";
-    cin >> arr[jumlah].nomor;
+    cin >> arr[jumlahData].nomor;
 
     cin.ignore(); 
     do {
         cout << "Tipe Kamar (Standard/Deluxe/Suite) : ";
         // Input string dengan spasi
-        getline(cin, arr[jumlah].tipe); 
+        getline(cin, arr[jumlahData].tipe); 
 
         // Hitung harga otomatis
-        arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); 
+        arr[jumlahData].harga = hargaKamar(arr[jumlahData].tipe); 
 
         // Cek jika salah ketik (harga jadi 0)
-        if (arr[jumlah].harga == 0) {
+        if (arr[jumlahData].harga == 0) {
             cout << ">> WARNING: Tipe salah/typo! Silakan ketik ulang.\n" << endl;
         }
 
     // Syarat mengulang: Jika harga masih 0, kembali ke atas (do)
-    } while (arr[jumlah].harga == 0);
+    } while (arr[jumlahData].harga == 0);
 
     cout << "Harga per Malam                        : ";
-    arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); // Set Harga Otomatis
+    arr[jumlahData].harga = hargaKamar(arr[jumlahData].tipe); // Set Harga Otomatis
 
-    if (arr[jumlah].harga == 0) {
+    if (arr[jumlahData].harga == 0) {
         cout << "WARNING: Tipe kamar salah ketik! Harga diset 0." << endl;
     } else {
-        cout << arr[jumlah].harga << endl;
+        cout << arr[jumlahData].harga << endl;
     }
 
     int pilStatus;
@@ -190,18 +204,18 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     cin >> pilStatus;
 
     if (pilStatus == 1) {
-        arr[jumlah].status = true;
+        arr[jumlahData].status = true;
     } else {
-        arr[jumlah].status = false;
+        arr[jumlahData].status = false;
     }
 
-    jumlah++; // Menambah jumlah data agar input berikutnya masuk ke index baru
+    jumlahData++; // Menambah jumlahData data agar input berikutnya masuk ke index baru
     
     cout << ">> Sukses! Data kamar berhasil disimpan." << endl;
 }
 
 // [AREA KERJA BAYIK]
-void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
+void bubbleSortKamar(Kamar arr[], int jumlahData, bool ascending, int opsi) {
     // LOGIKA SORTING:
     // Gunakan Nested Loop (boleh While dalam While, atau For dalam For)
     // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
@@ -210,8 +224,8 @@ void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
     // Prosedur Sort
     // opsi 1 = Berdasarkan Harga
     // opsi 2 = Berdasarkan Nomor Kamar
-    // for (int i = 0; i < jumlah - 1; i++) {
-    //     for (int j = 0; j < jumlah - i - 1; j++) {
+    // for (int i = 0; i < jumlahData - 1; i++) {
+    //     for (int j = 0; j < jumlahData - i - 1; j++) {
             
     //         bool tukar = false;
             
@@ -253,10 +267,29 @@ long hitungTotalRekursif(long hargaPerMalam, int durasi) {
 }
 
 // [AREA KERJA MAS]
-void tampilkanDaftar(Kamar arr[], int jumlah) {
-    // LOGIKA:
-    // Loop dari i = 0 sampai i < jumlah
-    // Cout data kamar dalam bentuk tabel/list rapi
+void tampilkanDaftar(Kamar arr[], int jumlahData) {
+    if (jumlahData == 0) {
+        cout << "Belum ada data kamar." << endl;
+        return;
+    }
+
+    cout << "\n--- Daftar Kamar Hotel ---" << endl;
+    
+    cout << left << setw(8)  << "No" 
+        << setw(12) << "Tipe" 
+        << setw(15) << "Harga" 
+        << setw(12) << "Status" 
+        << "Nama Pemesan" << endl;
+    cout << string(65, '-') << endl; 
+    int i = 0;
+    do {
+        cout << left << setw(8)  << arr[i].nomor 
+            << setw(12) << arr[i].tipe 
+            << setw(15) << arr[i].harga 
+            << setw(12) << (arr[i].status == 1 ? "Dipesan" : "Kosong") 
+            << arr[i].namaPemesan << endl;
+        i++;
+    } while (i < jumlahData);
 }
 
 // [AREA KERJA MAS]
@@ -269,7 +302,7 @@ void prosesBooking(Kamar *ptrKamar) {
 }
 
 // [AREA KERJA MAS]
-void prosesCheckOut(Kamar arr[], int jumlah) {
+void prosesCheckOut(Kamar arr[], int jumlahData) {
     // LOGIKA:
     // 1. Input Nomor Kamar
     // 2. Cari Kamarnya (Looping Search)
