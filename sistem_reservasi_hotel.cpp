@@ -71,12 +71,9 @@ int main() {
             cout << "2. Termahal" << endl;
             cin >> pilihan;
             if (pilihan == 1) {
-                cout << "tes" << endl;
-                    bubbleSortKamar(hotel, jumlahData, true);
+                bubbleSortKamar(hotel, jumlahData, true);
             } else {
-                    bubbleSortKamar(hotel, jumlahData, false);
-                cout << "tes" << endl;
-
+                bubbleSortKamar(hotel, jumlahData, false);
             }
             tampilkanDaftar(hotel, jumlahData);
 
@@ -150,7 +147,6 @@ void dataKamar(Kamar arr[]) {
     } while (jumlahData < 5);
 }
 
-// [AREA KERJA BAYIK]
 void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // LOGIKA:
     // 1. Cek apakah (jumlah >= maxKapasitas)? Jika ya, cout "Penuh" & return.
@@ -161,46 +157,45 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
     
     // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
+    // 1. Cek Kapasitas Array
     if (jumlah >= maxKapasitas) {
-        cout << "Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
+        cout << ">> Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
         return; 
     }
 
     cout << "\n===== Input Data Kamar Baru (Index ke-" << jumlah << ") =====" << endl;
 
-    cout << "Nomor Kamar                            : ";
+    // 2. Input Nomor Kamar
+    cout << "Nomor Kamar : ";
     cin >> arr[jumlah].nomor;
 
-    cin.ignore(); 
+    // 3. Input Tipe Kamar (Validasi dengan Loop)
+    cin.ignore(); // Membersihkan buffer sebelum getline
     do {
         cout << "Tipe Kamar (Standard/Deluxe/Suite) : ";
-        // Input string dengan spasi
         getline(cin, arr[jumlah].tipe); 
 
         // Hitung harga otomatis
         arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); 
 
-        // Cek jika salah ketik (harga jadi 0)
+        // Validasi: Jika harga 0, berarti tipe salah ketik
         if (arr[jumlah].harga == 0) {
-            cout << ">> WARNING: Tipe salah/typo! Silakan ketik ulang.\n" << endl;
+            cout << "WARNING: Tipe salah/typo! Silakan ketik ulang.\n";
         }
-    // Syarat mengulang: Jika harga masih 0, kembali ke atas (do)
+    
+    // Ulangi terus selama harga masih 0
     } while (arr[jumlah].harga == 0);
 
-    cout << "Harga per Malam                        : ";
-    arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); // Set Harga Otomatis
+    // 4. Tampilkan Harga (Hasil dari perhitungan di atas)
+    cout << "Harga per Malam : Rp " << arr[jumlah].harga << endl;
 
-    if (arr[jumlah].harga == 0) {
-        cout << "WARNING: Tipe kamar salah ketik! Harga diset 0." << endl;
-    } else {
-        cout << arr[jumlah].harga << endl;
-    }
-        
-    arr[jumlah].status = false; // Set status kamar jadi kosong
+    // 5. Set Status Otomatis (Default: Kosong)
+    arr[jumlah].status = false; 
     arr[jumlah].namaPemesan = "-";
-    cout << "Status                                 : Kosong" << endl;
+    cout << "Status : Kosong" << endl;
 
-    jumlah++; // Menambah jumlah data agar input berikutnya masuk ke index baru
+    // 6. Update Counter Data
+    jumlah++; 
     
     cout << "===== Sukses! Data kamar berhasil disimpan. =====" << endl;
 }
@@ -261,7 +256,7 @@ void tampilkanDaftar(Kamar arr[], int jumlah) {
     
     cout << left << setw(8)  << "No" 
         << setw(12) << "Tipe" 
-        << setw(15) << "Harga" 
+        << setw(20) << "Harga per Malam" 
         << setw(12) << "Status" 
         << "Nama Pemesan" << endl;
     cout << string(65, '-') << endl; 
@@ -269,7 +264,7 @@ void tampilkanDaftar(Kamar arr[], int jumlah) {
     do {
         cout << left << setw(8)  << arr[i].nomor 
             << setw(12) << arr[i].tipe 
-            << setw(15) << arr[i].harga 
+            << setw(20) << arr[i].harga 
             << setw(12) << (arr[i].status == 1 ? "Dipesan" : "Kosong") 
             << arr[i].namaPemesan << endl;
         i++;
