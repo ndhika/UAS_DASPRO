@@ -1,9 +1,23 @@
 #include <iostream>
 using namespace std;
 
-int main(){
-  cout << "SELAMAT DATANG DI HOTEL BAYIK JAYA \n";
-  cout << "baljfafbiabfa";
+struct kamar
+{
+    string tipeKamar;
+    int nomorKamar;
+    float hargaPerMalam;
+    bool status;
+};
+struct reservasi
+{
+    string namaPemesan;
+    int nomorKamar;
+    int lamaMenginap;
+    int totalbiaya;
+};
+
+int main()
+{
 
 
 }
