@@ -102,13 +102,13 @@ int main() {
 // --- 4. DEFINISI FUNCTION (AREA KODING) ---
 long hargaKamar (string tipe) // Harga otomatis berdasarkan tipe kamar agar data konsisten
 {
-    if (tipe == "Standard") {
+    if (tipe == "Standard" || tipe == "standard") {
         return 300000;
     } 
-    else if (tipe == "Deluxe") {
+    else if (tipe == "Deluxe" || tipe == "deluxe") {
         return 500000;
     } 
-    else if (tipe == "Suite") {
+    else if (tipe == "Suite" || tipe == "suite" ) {
         return 1000000;
     } 
     else {
@@ -119,38 +119,20 @@ long hargaKamar (string tipe) // Harga otomatis berdasarkan tipe kamar agar data
 void dataKamar(Kamar arr[]) {
     // HARDCODE DATA (Index 0 sampai 4)
     // Format: {Nomor, Tipe, Harga, Status, Nama}
-    
-    cout << "Nomor          : 101\n";
-    cout << "Tipe           : Standard\n";
-    cout << "Harga          : 250000.0\n";
-    cout << "Status         : Kosong\n";
-    cout << "Nama Pemesan   : Naja\n";
-    
-    cout << "Nomor          : 105\n";
-    cout << "Tipe           : Deluxe\n";
-    cout << "Harga          : 500000.0\n";
-    cout << "Status         : Dipesan\n";
-    cout << "Nama Pemesan   : Naja\n";
-    
-    cout << "Nomor          : 110\n";
-    cout << "Tipe           : Suite\n";
-    cout << "Harga          : 1500000.0\n";
-    cout << "Status         : Kosong\n";
-    cout << "Nama Pemesan   : Naja\n";
-    
-    cout << "Nomor          : 115\n";
-    cout << "Tipe           : Standard\n";
-    cout << "Harga          : 250000.0\n";
-    cout << "Status         : Dipesan\n";
-    cout << "Nama Pemesan   : Naja\n";
 
-    // arr[0].nomor = 101;
-    // arr[0].tipe = "Standard";
-    // arr[0].harga = hargaKamar(arr[0].tipe);
-    // arr[0].status = true;
-    // arr[0].namaPemesan = "Naja";
+    Kamar hotel[5] = {
+        {101, "Standard", hargaKamar("Standard"), 0, "-"},
+        {105, "Deluxe", hargaKamar("Deluxe"), 1, "Andhika"},
+        {110, "Suite", hargaKamar("Suite"), 0, "-"},
+        {115, "Standard", hargaKamar("Standard"), 1, "Ayudhya"},
+        {120, "Deluxe", hargaKamar("Deluxe"), 0, "-"}
+    };
 
-    cout << ">> Sistem siap! 5 Data kamar berhasil dimuat." << endl;
+    int jumlahData = 0;
+    do {
+        arr[jumlahData] = arr[jumlahData];
+        jumlahData++;
+    } while (jumlahData < 5);
 }
 
 // [AREA KERJA BAYIK]
