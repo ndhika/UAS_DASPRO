@@ -1,78 +1,92 @@
+// JUDUL: Sistem Reservasi Hotel (Versi Hybrid)
+// TUGAS UAS KELOMPOK 7
+// Nama: Andhika Hisyam Muhammad Rafi (A11.2025.16251)
+// Nama: Ayudhya Naja Adinda (A11.2025.16249)
 #include <iostream>
 #include <string>
 using namespace std;
 
-// --- 1. TYPE BENTUKAN (STRUCT & ADT) ---
+// KAMUS: 
 struct Kamar {
     int nomor;      // Contoh: 101
-    string tipe;    // Standard/Deluxe
+    string tipe;    // Standard/Deluxe/Suite
     long harga;     // Harga per malam
     int status;     // 0 = Kosong, 1 = Terisi
     string namaTamu;// Nama pemesan
 };
 
+const int MAX_KAMAR = 40;      // Kapasitas Gudang (Maksimal)
+Kamar hotel[MAX_KAMAR];         // Array Besar
+int jumlahData = 5;             // Data aktif saat ini (Mulai dari 5 karena hardcode)
+int pilihan;
+
+// DISKRIPSI: 
+
 // --- 2. PROTOTYPE FUNCTION & PROCEDURE ---
 
-// Utilitas: Mengisi data awal (Hardcode)
-void inisialisasiData(Kamar arr[], int jumlah);
+// [TUGAS BAYIK] - Mengisi 5 data awal (Hardcode)
+void inisialisasiData(Kamar arr[]);
 
-// Fitur 1: Menampilkan Data & Sorting
+// [TUGAS BAYIK] - Fitur Input Manual (Nambah kamar baru)
+// PENTING: Pakai int &jumlah (pass by reference) biar jumlah di main ikut berubah
+void tambahKamar(Kamar arr[], int &jumlah, int maxKapasitas);
+
+// [TUGAS BAYIK] - Sorting & Perhitungan
 // Parameter 'ascending': true buat termurah, false buat termahal
-void tampilkanDaftar(Kamar arr[], int jumlah);
-void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending); 
+void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending);
+long hitungTotalRekursif(long hargaPerMalam, int durasi);
 
-// Fitur 2: Check-In (PAKE POINTER)
+// [TUGAS MAS] - Tampil & Proses Transaksi
+void tampilkanDaftar(Kamar arr[], int jumlah);
 // Menerima ALAMAT memori kamar (*ptrKamar) biar perubahan nempel permanen
 void prosesBooking(Kamar *ptrKamar);
-
-// Fitur 3: Check-Out & Hitung Biaya (REKURSIF)
-// Mengembalikan nilai total harga (long)
-long hitungTotalRekursif(long hargaPerMalam, int durasi);
 void prosesCheckOut(Kamar arr[], int jumlah);
 
 
 // --- 3. MAIN PROGRAM ---
 int main() {
-    // ARRAY 1 DIMENSI (ADT)
-    const int JUMLAH_KAMAR = 5; // Kecil aja biar gampang ngetesnya
-    Kamar hotel[JUMLAH_KAMAR]; 
+    // 1. ISI DATA AWAL (Hardcode)
+    inisialisasiData(hotel);
 
-    // Panggil Inisialisasi dulu sebelum masuk menu
-    inisialisasiData(hotel, JUMLAH_KAMAR);
-
-    int pilihan;
-    
-    // LOOPING MENU UTAMA (DO-WHILE)
+    // 2. LOOPING MENU UTAMA
     do {
-        // TAMPILKAN MENU DISINI (Cout biasa)
-        // 1. Daftar Kamar, 2. Check In, 3. Check Out, 4. Exit
-        cout << "\n=== SISTEM HOTEL ===" << endl;
+        cout << "\n=== SISTEM HOTEL (Data: " << jumlahData << "/" << MAX_KAMAR << ") ===" << endl;
+        cout << "1. Daftar Kamar (Sorting)" << endl;
+        cout << "2. Check-In (Booking)" << endl;
+        cout << "3. Check-Out (Bayar)" << endl;
+        cout << "4. Tambah Kamar Baru" << endl; // <--- MENU BARU
+        cout << "5. Keluar" << endl;
         cout << "Pilih menu: ";
         cin >> pilihan;
 
         switch (pilihan) {
             case 1:
-                // LOGIKANYA:
-                // 1. Tanya user mau sort Termurah (1) atau Termahal (2)
-                // 2. Panggil bubbleSortKamar(...) sesuai pilihan
-                // 3. Panggil tampilkanDaftar(...)
+                // [LOGIKA MAS]
+                // 1. Tanya user: 1. Termurah (Ascending), 2. Termahal (Descending)
+                // 2. if (pilih == 1) bubbleSortKamar(hotel, jumlahData, true);
+                // 3. else bubbleSortKamar(hotel, jumlahData, false);
+                // 4. tampilkanDaftar(hotel, jumlahData);
                 break;
 
             case 2:
-                // LOGIKANYA:
-                // 1. User input nomor kamar yang mau dibooking
-                // 2. Lakukan SEARCHING (Pakai WHILE) buat cari indexnya
-                // 3. Kalau ketemu, panggil: prosesBooking( &hotel[i] ); 
-                //    (Ingat pakai tanda '&' karena parameternya pointer)
+                // [LOGIKA MAS]
+                // 1. Input nomor kamar dicari
+                // 2. Searching Index (Looping cari hotel[i].nomor == input)
+                // 3. Jika ketemu: prosesBooking(&hotel[index_ketemu]);
                 break;
 
             case 3:
-                // LOGIKANYA:
-                // 1. Panggil prosesCheckOut(hotel, JUMLAH_KAMAR);
-                //    (Searching dan hitung rekursif lakukan di dalam sana)
+                // [LOGIKA MAS]
+                // 1. Panggil prosesCheckOut(hotel, jumlahData);
                 break;
 
             case 4:
+                // [LOGIKA BAYIK - FITUR BARU]
+                // Kirim alamat variable jumlahData biar bisa ditambah di dalam fungsi
+                tambahKamar(hotel, jumlahData, MAX_KAMAR);
+                break;
+
+            case 5:
                 cout << "Terima kasih!" << endl;
                 break;
 
@@ -80,59 +94,76 @@ int main() {
                 cout << "Input salah!" << endl;
         }
 
-    } while (pilihan != 4); // Loop berhenti kalau pilih 4
+    } while (pilihan != 5);
 
     return 0;
 }
 
 
-// --- 4. DEFINISI FUNCTION (ISI LOGIKA DISINI) ---
+// --- 4. DEFINISI FUNCTION (AREA KODING) ---
 
-void inisialisasiData(Kamar arr[], int jumlah) {
-    // LOGIKA:
-    // Isi arr[0] sampai arr[jumlah-1] secara manual
-    // Contoh: arr[0].nomor = 101; arr[0].harga = 300000; arr[0].status = 0;
-    // ... dst ...
+// [AREA KERJA BAYIK]
+void inisialisasiData(Kamar arr[]) {
+    // HARDCODE DATA (Index 0 sampai 4)
+    // Format: {Nomor, Tipe, Harga, Status, Nama}
+    
+    
+    cout << ">> Sistem siap! 5 Data kamar berhasil dimuat." << endl;
 }
 
+// [AREA KERJA BAYIK]
+void tambahKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
+    // LOGIKA:
+    // 1. Cek apakah (jumlah >= maxKapasitas)? Jika ya, cout "Penuh" & return.
+    
+    // 2. Input data ke dalam array index ke-[jumlah] (karena index mulai dari 0)
+    //    Contoh: cin >> arr[jumlah].nomor;
+    
+    // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
+    
+    // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
+}
+
+// [AREA KERJA BAYIK]
 void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending) {
-    // LOGIKA:
-    // Gunakan NESTED WHILE (While di dalam While)
-    // Cek 'ascending'. Jika true, tukar kalau kiri > kanan.
-    // Jika false, tukar kalau kiri < kanan.
-    // Hati-hati jangan pakai FOR loop sesuai request.
+    // LOGIKA SORTING:
+    // Gunakan Nested Loop (boleh While dalam While, atau For dalam For)
+    // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
+    // Jika ascending = false, tukar jika (kiri.harga < kanan.harga)
 }
 
-void tampilkanDaftar(Kamar arr[], int jumlah) {
-    // LOGIKA:
-    // Pakai WHILE loop untuk cout semua isi array satu per satu
-}
-
-void prosesBooking(Kamar *ptrKamar) {
-    // LOGIKA POINTER:
-    // Cek status pakai panah: if (ptrKamar->status == 0) { ... }
-    // Kalau kosong:
-    //    Input ptrKamar->namaTamu
-    //    Ubah ptrKamar->status = 1
-    // Kalau tidak kosong (else):
-    //    Tampilkan pesan error "Kamar penuh"
-}
-
+// [AREA KERJA BAYIK]
 long hitungTotalRekursif(long hargaPerMalam, int durasi) {
     // LOGIKA REKURSIF:
     // Base Case: Jika durasi == 1, return hargaPerMalam.
     // Recursive Case: return hargaPerMalam + hitungTotalRekursif(..., durasi-1);
-    return 0; // (Hapus ini ganti kodemu)
+    return 0; 
 }
 
+// [AREA KERJA MAS]
+void tampilkanDaftar(Kamar arr[], int jumlah) {
+    // LOGIKA:
+    // Loop dari i = 0 sampai i < jumlah
+    // Cout data kamar dalam bentuk tabel/list rapi
+}
+
+// [AREA KERJA MAS]
+void prosesBooking(Kamar *ptrKamar) {
+    // LOGIKA POINTER:
+    // Akses pakai tanda panah (->)
+    // if (ptrKamar->status == 0) -> Masih kosong
+    //      Input nama, Ubah status jadi 1
+    // Else -> "Maaf kamar penuh"
+}
+
+// [AREA KERJA MAS]
 void prosesCheckOut(Kamar arr[], int jumlah) {
-    // LOGIKA KOMBINE:
-    // 1. Input nomor kamar
-    // 2. Search pakai WHILE
-    // 3. Kalau ketemu & statusnya 1 (terisi):
-    //    - Input berapa malam menginap
-    //    - Panggil: long total = hitungTotalRekursif(...);
-    //    - Tampilkan total bayar
-    //    - RESET DATA: status = 0, namaTamu = "-"
-    // 4. Kalau status 0, bilang "Kamar ini memang kosong!"
+    // LOGIKA:
+    // 1. Input Nomor Kamar
+    // 2. Cari Kamarnya (Looping Search)
+    // 3. Jika ketemu & Status == 1 (Ada tamu):
+    //    - Input Durasi Menginap
+    //    - Panggil: total = hitungTotalRekursif(hotel[i].harga, durasi);
+    //    - Tampilkan Tagihan
+    //    - Reset Kamar (Status=0, Nama="-")
 }
