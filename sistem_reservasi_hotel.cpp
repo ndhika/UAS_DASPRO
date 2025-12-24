@@ -166,7 +166,7 @@ void inputKamar(Kamar arr[], int &jumlahData, int maxKapasitas) {
         return; 
     }
 
-    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlah << ") ---" << endl;
+    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlahData << ") ---" << endl;
 
     cout << "Nomor Kamar                            : ";
     cin >> arr[jumlahData].nomor;
