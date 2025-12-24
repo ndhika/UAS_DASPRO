@@ -20,10 +20,7 @@ Kamar hotel[MAX_KAMAR];         // Array Besar
 int jumlahData = 5;             // Data aktif saat ini (Mulai dari 5 karena hardcode)
 int pilihan;
 
-// DISKRIPSI: 
-
 // --- 2. PROTOTYPE FUNCTION & PROCEDURE ---
-
 // [TUGAS BAYIK] - Mengisi 5 data awal (Hardcode)
 void inisialisasiData(Kamar arr[]);
 
@@ -42,6 +39,8 @@ void tampilkanDaftar(Kamar arr[], int jumlah);
 void prosesBooking(Kamar *ptrKamar);
 void prosesCheckOut(Kamar arr[], int jumlah);
 
+
+// DISKRIPSI: 
 
 // --- 3. MAIN PROGRAM ---
 int main() {
