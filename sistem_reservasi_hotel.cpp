@@ -72,9 +72,9 @@ int main() {
             cin >> pilihan;
             if (pilihan == 1) {
                 cout << "tes" << endl;
-                //     bubbleSortKamar(hotel, jumlahData, true);
+                    bubbleSortKamar(hotel, jumlahData, true);
             } else {
-                //    bubbleSortKamar(hotel, jumlahData, false);
+                   bubbleSortKamar(hotel, jumlahData, false);
                 cout << "tes" << endl;
 
             }
@@ -206,40 +206,32 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
 }
 
 // [AREA KERJA BAYIK]
-void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
+void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending) {
     // LOGIKA SORTING:
     // Gunakan Nested Loop (While dalam While)
     // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
     // Jika ascending = false, tukar jika (kiri.harga < kanan.harga)
 
-    // Prosedur Sort
-    // opsi 1 = Berdasarkan Harga
-    // opsi 2 = Berdasarkan Nomor Kamar
     int i = 0; 
-
     while (i < jumlah - 1) {
-        
         int j = 0;
-
         while (j < jumlah - i - 1) {           
             bool tukar = false;
-            long nilaiKiri, nilaiKanan;
+            
+            // LANGSUNG AMBIL HARGA (Tanpa cek opsi)
+            long nilaiKiri = arr[j].harga;
+            long nilaiKanan = arr[j+1].harga;
 
-            // --- LOGIKA PEMBANDING (Sama Persis) ---
-            if (opsi == 1) { // Berdasarkan Harga
-                nilaiKiri = arr[j].harga;
-                nilaiKanan = arr[j+1].harga;
-            } else { // Berdasarkan Nomor
-                nilaiKiri = arr[j].nomor;
-                nilaiKanan = arr[j+1].nomor;
-            }
-
+            // Logika Ascending/Descending
             if (ascending) {
+                // Termurah (Ascending)
                 if (nilaiKiri > nilaiKanan) tukar = true;
             } else {
+                // Termahal (Descending)
                 if (nilaiKiri < nilaiKanan) tukar = true;
             }
 
+            // Tukar Posisi
             if (tukar) {
                 Kamar temp = arr[j];
                 arr[j] = arr[j + 1];
@@ -248,7 +240,7 @@ void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
             j++;
         }
         i++;
-    }   
+    }
 }
 
 // [AREA KERJA BAYIK]
