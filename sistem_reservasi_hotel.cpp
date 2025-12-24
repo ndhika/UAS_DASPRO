@@ -151,71 +151,62 @@ void dataKamar(Kamar arr[]) {
 }
 
 // [AREA KERJA BAYIK]
-void inputKamar(Kamar arr[], int &jumlahData, int maxKapasitas) {
+void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // LOGIKA:
-    // 1. Cek apakah (jumlahData >= maxKapasitas)? Jika ya, cout "Penuh" & return.
+    // 1. Cek apakah (jumlah >= maxKapasitas)? Jika ya, cout "Penuh" & return.
     
-    // 2. Input data ke dalam array index ke-[jumlahData] (karena index mulai dari 0)
-    //    Contoh: cin >> arr[jumlahData].nomor;
+    // 2. Input data ke dalam array index ke-[jumlah] (karena index mulai dari 0)
+    //    Contoh: cin >> arr[jumlah].nomor;
     
-    // 3. Set default: arr[jumlahData].status = 0; arr[jumlahData].namaTamu = "-";
+    // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
     
-    // 4. JANGAN LUPA: jumlahData++; (Menambah counter data)
-    if (jumlahData >= maxKapasitas) {
+    // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
+    if (jumlah >= maxKapasitas) {
         cout << "Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
         return; 
     }
 
-    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlahData << ") ---" << endl;
+    cout << "\n===== Input Data Kamar Baru (Index ke-" << jumlah << ") =====" << endl;
 
     cout << "Nomor Kamar                            : ";
-    cin >> arr[jumlahData].nomor;
+    cin >> arr[jumlah].nomor;
 
     cin.ignore(); 
     do {
         cout << "Tipe Kamar (Standard/Deluxe/Suite) : ";
         // Input string dengan spasi
-        getline(cin, arr[jumlahData].tipe); 
+        getline(cin, arr[jumlah].tipe); 
 
         // Hitung harga otomatis
-        arr[jumlahData].harga = hargaKamar(arr[jumlahData].tipe); 
+        arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); 
 
         // Cek jika salah ketik (harga jadi 0)
-        if (arr[jumlahData].harga == 0) {
+        if (arr[jumlah].harga == 0) {
             cout << ">> WARNING: Tipe salah/typo! Silakan ketik ulang.\n" << endl;
         }
     // Syarat mengulang: Jika harga masih 0, kembali ke atas (do)
-    } while (arr[jumlahData].harga == 0);
+    } while (arr[jumlah].harga == 0);
 
     cout << "Harga per Malam                        : ";
-    arr[jumlahData].harga = hargaKamar(arr[jumlahData].tipe); // Set Harga Otomatis
+    arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); // Set Harga Otomatis
 
-    if (arr[jumlahData].harga == 0) {
+    if (arr[jumlah].harga == 0) {
         cout << "WARNING: Tipe kamar salah ketik! Harga diset 0." << endl;
     } else {
-        cout << arr[jumlahData].harga << endl;
+        cout << arr[jumlah].harga << endl;
     }
+        
+    arr[jumlah].status = false; // Set status kamar jadi kosong
+    arr[jumlah].namaPemesan = "-";
+    cout << "Status                                 : Kosong" << endl;
 
-    int pilStatus;
-    cout << "Status Kamar saat ini                  :" << endl;
-    cout << "  1. Kosong" << endl;
-    cout << "  2. Dipesan" << endl;
-    cout << "Pilih (1 / 2): ";
-    cin >> pilStatus;
-
-    if (pilStatus == 1) {
-        arr[jumlah].status = true;
-    } else {
-        arr[jumlah].status = false;
-    }
-
-    jumlahData++; // Menambah jumlahData data agar input berikutnya masuk ke index baru
+    jumlah++; // Menambah jumlah data agar input berikutnya masuk ke index baru
     
     cout << "===== Sukses! Data kamar berhasil disimpan. =====" << endl;
 }
 
 // [AREA KERJA BAYIK]
-void bubbleSortKamar(Kamar arr[], int jumlahData, bool ascending, int opsi) {
+void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
     // LOGIKA SORTING:
     // Gunakan Nested Loop (While dalam While)
     // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
@@ -224,13 +215,15 @@ void bubbleSortKamar(Kamar arr[], int jumlahData, bool ascending, int opsi) {
     // Prosedur Sort
     // opsi 1 = Berdasarkan Harga
     // opsi 2 = Berdasarkan Nomor Kamar
-    // for (int i = 0; i < jumlah - 1; i++) {
-    //     for (int j = 0; j < jumlah - i - 1; j++) {
-            
-    //         bool tukar = false;
-            
-    //         // --- LOGIKA PEMBANDING ---
-    //         long nilaiKiri, nilaiKanan;
+    int i = 0; 
+
+    while (i < jumlah - 1) {
+        
+        int j = 0;
+
+        while (j < jumlah - i - 1) {           
+            bool tukar = false;
+            long nilaiKiri, nilaiKanan;
 
             // --- LOGIKA PEMBANDING (Sama Persis) ---
             if (opsi == 1) { // Berdasarkan Harga
