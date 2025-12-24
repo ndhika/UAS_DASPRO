@@ -26,19 +26,19 @@ int pilihan;
 void dataKamar(Kamar arr[]);
 
 // [TUGAS BAYIK] - Fitur Input Manual (Nambah kamar baru)
-// PENTING: Pakai int &jumlahData (pass by reference) biar jumlahData di main ikut berubah
-void inputKamar(Kamar arr[], int &jumlahData, int maxKapasitas);
+// PENTING: Pakai int &jumlah (pass by reference) biar jumlah di main ikut berubah
+void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas);
 
 // [TUGAS BAYIK] - Sorting & Perhitungan
 // Parameter 'ascending': true buat termurah, false buat termahal
-void bubbleSortKamar(Kamar arr[], int jumlahData, bool ascending);
+void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending);
 long hitungTotalRekursif(long hargaPerMalam, int durasi);
 
 // [TUGAS MAS] - Tampil & Proses Transaksi
-void tampilkanDaftar(Kamar arr[], int jumlahData);
+void tampilkanDaftar(Kamar arr[], int jumlah);
 // Menerima ALAMAT memori kamar (*ptrKamar) biar perubahan nempel permanen
 void prosesBooking(Kamar *ptrKamar);
-void prosesCheckOut(Kamar arr[], int jumlahData);
+void prosesCheckOut(Kamar arr[], int jumlah);
 
 
 // DISKRIPSI: 
@@ -260,8 +260,8 @@ long hitungTotalRekursif(long hargaPerMalam, int durasi) {
 }
 
 // [AREA KERJA MAS]
-void tampilkanDaftar(Kamar arr[], int jumlahData) {
-    if (jumlahData == 0) {
+void tampilkanDaftar(Kamar arr[], int jumlah) {
+    if (jumlah == 0) {
         cout << "Belum ada data kamar." << endl;
         return;
     }
@@ -282,7 +282,7 @@ void tampilkanDaftar(Kamar arr[], int jumlahData) {
             << setw(12) << (arr[i].status == 1 ? "Dipesan" : "Kosong") 
             << arr[i].namaPemesan << endl;
         i++;
-    } while (i < jumlahData);
+    } while (i < jumlah);
 }
 
 // [AREA KERJA MAS]
@@ -295,7 +295,7 @@ void prosesBooking(Kamar *ptrKamar) {
 }
 
 // [AREA KERJA MAS]
-void prosesCheckOut(Kamar arr[], int jumlahData) {
+void prosesCheckOut(Kamar arr[], int jumlah) {
     // LOGIKA:
     // 1. Input Nomor Kamar
     // 2. Cari Kamarnya (Looping Search)
