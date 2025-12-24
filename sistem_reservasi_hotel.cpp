@@ -74,7 +74,7 @@ int main() {
                 cout << "tes" << endl;
                     bubbleSortKamar(hotel, jumlahData, true);
             } else {
-                   bubbleSortKamar(hotel, jumlahData, false);
+                    bubbleSortKamar(hotel, jumlahData, false);
                 cout << "tes" << endl;
 
             }
@@ -217,18 +217,17 @@ void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending) {
         int j = 0;
         while (j < jumlah - i - 1) {           
             bool tukar = false;
-            
             // LANGSUNG AMBIL HARGA (Tanpa cek opsi)
-            long nilaiKiri = arr[j].harga;
-            long nilaiKanan = arr[j+1].harga;
+            long indexpertama = arr[j].harga;
+            long indexkedua = arr[j+1].harga;
 
             // Logika Ascending/Descending
             if (ascending) {
                 // Termurah (Ascending)
-                if (nilaiKiri > nilaiKanan) tukar = true;
+                if (indexpertama > indexkedua) tukar = true;
             } else {
                 // Termahal (Descending)
-                if (nilaiKiri < nilaiKanan) tukar = true;
+                if (indexpertama < indexkedua) tukar = true;
             }
 
             // Tukar Posisi
