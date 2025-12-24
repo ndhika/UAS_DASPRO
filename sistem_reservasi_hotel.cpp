@@ -12,7 +12,7 @@ struct Kamar {
     string tipe;    // Standard/Deluxe/Suite
     long harga;     // Harga per malam
     int status;     // 0 = Kosong, 1 = Terisi
-    string namaTamu;// Nama pemesan
+    string namaPemesan;// Nama pemesan
 };
 
 const int MAX_KAMAR = 40;      // Kapasitas Gudang (Maksimal)
@@ -22,11 +22,11 @@ int pilihan;
 
 // --- 2. PROTOTYPE FUNCTION & PROCEDURE ---
 // [TUGAS BAYIK] - Mengisi 5 data awal (Hardcode)
-void inisialisasiData(Kamar arr[]);
+void dataKamar(Kamar arr[]);
 
 // [TUGAS BAYIK] - Fitur Input Manual (Nambah kamar baru)
 // PENTING: Pakai int &jumlah (pass by reference) biar jumlah di main ikut berubah
-void tambahKamar(Kamar arr[], int &jumlah, int maxKapasitas);
+void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas);
 
 // [TUGAS BAYIK] - Sorting & Perhitungan
 // Parameter 'ascending': true buat termurah, false buat termahal
@@ -45,7 +45,7 @@ void prosesCheckOut(Kamar arr[], int jumlah);
 // --- 3. MAIN PROGRAM ---
 int main() {
     // 1. ISI DATA AWAL (Hardcode)
-    inisialisasiData(hotel);
+    dataKamar(hotel);
 
     // 2. LOOPING MENU UTAMA
     do {
@@ -82,7 +82,7 @@ int main() {
             case 4:
                 // [LOGIKA BAYIK - FITUR BARU]
                 // Kirim alamat variable jumlahData biar bisa ditambah di dalam fungsi
-                tambahKamar(hotel, jumlahData, MAX_KAMAR);
+                inputKamar(hotel, jumlahData, MAX_KAMAR);
                 break;
 
             case 5:
@@ -100,18 +100,35 @@ int main() {
 
 
 // --- 4. DEFINISI FUNCTION (AREA KODING) ---
-
+long hargaKamar (string tipe) // Harga otomatis berdasarkan tipe kamar agar data konsisten
+{
+    if (tipe == "Standard") return 250000.0;
+    if (tipe == "Deluxe") return 500000.0;
+    if (tipe == "Suite") return 1500000.0;
+    return 0.0;
+}
 // [AREA KERJA BAYIK]
-void inisialisasiData(Kamar arr[]) {
+void dataKamar(Kamar arr[]) {
     // HARDCODE DATA (Index 0 sampai 4)
     // Format: {Nomor, Tipe, Harga, Status, Nama}
     
-    
+    // cout << "Nomor          : 101\n";
+    // cout << "Tipe           : Standard\n";
+    // cout << "Harga          : 250000.0\n";
+    // cout << "Status         : Kosong\n";
+    // cout << "Nama Pemesan   : Naja\n";
+
+    arr[0].nomor = 101;
+    arr[0].tipe = "Standard";
+    arr[0].harga = hargaKamar(arr[0].tipe);
+    arr[0].status = true;
+    arr[0].namaPemesan = "Naja";
+
     cout << ">> Sistem siap! 5 Data kamar berhasil dimuat." << endl;
 }
 
 // [AREA KERJA BAYIK]
-void tambahKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
+void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // LOGIKA:
     // 1. Cek apakah (jumlah >= maxKapasitas)? Jika ya, cout "Penuh" & return.
     
@@ -121,6 +138,47 @@ void tambahKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
     
     // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
+     int jumlahInput;
+
+    cout << "--- Fitur Input Data Kamar ---" << endl;
+    cout << "Berapa banyak kamar yang ingin didaftarkan? ";
+    cin >> jumlahInput;
+
+    // IF-ELSE untuk validasi kapasitas array
+    if (jumlah + jumlahInput) {
+        cout << "Gagal! Kapasitas hotel tidak mencukupi." << endl;
+    } else {
+        // LOOPING untuk mengisi data ke dalam array
+        for (int i = 0; i < jumlahInput; i++) {
+            cout << endl << "Data Kamar ke-" << (jumlah + 1) << endl;
+            cout << "Nomor Kamar : ";
+            cin >> arr[jumlah].nomor;
+
+            cout << "Tipe Kamar (Standard/Deluxe/Suite): ";
+            cin.ignore(); 
+            getline(cin, arr[jumlah].tipe);
+
+            cout << "Harga per Malam: ";
+            cin >> arr[jumlah].harga;
+
+            int pilihanStatus;
+            cout << "Status Kamar saat ini:" << endl;
+            cout << "  1. Kosong" << endl;
+            cout << "  2. Dipesan" << endl;
+            cout << "Pilih (1 / 2): ";
+            cin >> pilihanStatus;
+
+            // Menggunakan If-Else untuk menentukan bool
+            if (pilihanStatus == 1) {
+                arr[jumlah].status = true;
+            } else {
+                arr[jumlah].status = false;
+            }
+
+            jumlah++; 
+        }
+        cout << endl << "Berhasil menambahkan " << jumlahInput << " kamar ke sistem." << endl;
+    }
 }
 
 // [AREA KERJA BAYIK]
