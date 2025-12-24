@@ -102,27 +102,53 @@ int main() {
 // --- 4. DEFINISI FUNCTION (AREA KODING) ---
 long hargaKamar (string tipe) // Harga otomatis berdasarkan tipe kamar agar data konsisten
 {
-    if (tipe == "Standard") return 250000.0;
-    if (tipe == "Deluxe") return 500000.0;
-    if (tipe == "Suite") return 1500000.0;
-    return 0.0;
+    if (tipe == "Standard") {
+        return 300000;
+    } 
+    else if (tipe == "Deluxe") {
+        return 500000;
+    } 
+    else if (tipe == "Suite") {
+        return 1000000;
+    } 
+    else {
+        return 0; // Jika tipe salah ketik, harga 0
+    }
 }
 // [AREA KERJA BAYIK]
 void dataKamar(Kamar arr[]) {
     // HARDCODE DATA (Index 0 sampai 4)
     // Format: {Nomor, Tipe, Harga, Status, Nama}
     
-    // cout << "Nomor          : 101\n";
-    // cout << "Tipe           : Standard\n";
-    // cout << "Harga          : 250000.0\n";
-    // cout << "Status         : Kosong\n";
-    // cout << "Nama Pemesan   : Naja\n";
+    cout << "Nomor          : 101\n";
+    cout << "Tipe           : Standard\n";
+    cout << "Harga          : 250000.0\n";
+    cout << "Status         : Kosong\n";
+    cout << "Nama Pemesan   : Naja\n";
+    
+    cout << "Nomor          : 105\n";
+    cout << "Tipe           : Deluxe\n";
+    cout << "Harga          : 500000.0\n";
+    cout << "Status         : Dipesan\n";
+    cout << "Nama Pemesan   : Naja\n";
+    
+    cout << "Nomor          : 110\n";
+    cout << "Tipe           : Suite\n";
+    cout << "Harga          : 1500000.0\n";
+    cout << "Status         : Kosong\n";
+    cout << "Nama Pemesan   : Naja\n";
+    
+    cout << "Nomor          : 115\n";
+    cout << "Tipe           : Standard\n";
+    cout << "Harga          : 250000.0\n";
+    cout << "Status         : Dipesan\n";
+    cout << "Nama Pemesan   : Naja\n";
 
-    arr[0].nomor = 101;
-    arr[0].tipe = "Standard";
-    arr[0].harga = hargaKamar(arr[0].tipe);
-    arr[0].status = true;
-    arr[0].namaPemesan = "Naja";
+    // arr[0].nomor = 101;
+    // arr[0].tipe = "Standard";
+    // arr[0].harga = hargaKamar(arr[0].tipe);
+    // arr[0].status = true;
+    // arr[0].namaPemesan = "Naja";
 
     cout << ">> Sistem siap! 5 Data kamar berhasil dimuat." << endl;
 }
@@ -138,55 +164,102 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
     
     // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
-     int jumlahInput;
-
-    cout << "--- Fitur Input Data Kamar ---" << endl;
-    cout << "Berapa banyak kamar yang ingin didaftarkan? ";
-    cin >> jumlahInput;
-
-    // IF-ELSE untuk validasi kapasitas array
-    if (jumlah + jumlahInput) {
-        cout << "Gagal! Kapasitas hotel tidak mencukupi." << endl;
-    } else {
-        // LOOPING untuk mengisi data ke dalam array
-        for (int i = 0; i < jumlahInput; i++) {
-            cout << endl << "Data Kamar ke-" << (jumlah + 1) << endl;
-            cout << "Nomor Kamar : ";
-            cin >> arr[jumlah].nomor;
-
-            cout << "Tipe Kamar (Standard/Deluxe/Suite): ";
-            cin.ignore(); 
-            getline(cin, arr[jumlah].tipe);
-
-            cout << "Harga per Malam: ";
-            cin >> arr[jumlah].harga;
-
-            int pilihanStatus;
-            cout << "Status Kamar saat ini:" << endl;
-            cout << "  1. Kosong" << endl;
-            cout << "  2. Dipesan" << endl;
-            cout << "Pilih (1 / 2): ";
-            cin >> pilihanStatus;
-
-            // Menggunakan If-Else untuk menentukan bool
-            if (pilihanStatus == 1) {
-                arr[jumlah].status = true;
-            } else {
-                arr[jumlah].status = false;
-            }
-
-            jumlah++; 
-        }
-        cout << endl << "Berhasil menambahkan " << jumlahInput << " kamar ke sistem." << endl;
+    if (jumlah >= maxKapasitas) {
+        cout << "Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
+        return; 
     }
+
+    cout << "\n--- Input Data Kamar Baru (Index ke-" << jumlah << ") ---" << endl;
+
+    cout << "Nomor Kamar                            : ";
+    cin >> arr[jumlah].nomor;
+
+    cin.ignore(); 
+    do {
+        cout << "Tipe Kamar (Standard/Deluxe/Suite) : ";
+        // Input string dengan spasi
+        getline(cin, arr[jumlah].tipe); 
+
+        // Hitung harga otomatis
+        arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); 
+
+        // Cek jika salah ketik (harga jadi 0)
+        if (arr[jumlah].harga == 0) {
+            cout << ">> WARNING: Tipe salah/typo! Silakan ketik ulang.\n" << endl;
+        }
+
+    // Syarat mengulang: Jika harga masih 0, kembali ke atas (do)
+    } while (arr[jumlah].harga == 0);
+
+    cout << "Harga per Malam                        : ";
+    arr[jumlah].harga = hargaKamar(arr[jumlah].tipe); // Set Harga Otomatis
+
+    if (arr[jumlah].harga == 0) {
+        cout << "WARNING: Tipe kamar salah ketik! Harga diset 0." << endl;
+    } else {
+        cout << arr[jumlah].harga << endl;
+    }
+
+    int pilStatus;
+    cout << "Status Kamar saat ini                  :" << endl;
+    cout << "  1. Kosong" << endl;
+    cout << "  2. Dipesan" << endl;
+    cout << "Pilih (1 / 2): ";
+    cin >> pilStatus;
+
+    if (pilStatus == 1) {
+        arr[jumlah].status = true;
+    } else {
+        arr[jumlah].status = false;
+    }
+
+    jumlah++; // Menambah jumlah data agar input berikutnya masuk ke index baru
+    
+    cout << ">> Sukses! Data kamar berhasil disimpan." << endl;
 }
 
 // [AREA KERJA BAYIK]
-void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending) {
+void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending, int opsi) {
     // LOGIKA SORTING:
     // Gunakan Nested Loop (boleh While dalam While, atau For dalam For)
     // Jika ascending = true, tukar jika (kiri.harga > kanan.harga)
     // Jika ascending = false, tukar jika (kiri.harga < kanan.harga)
+
+    // Prosedur Sort
+    // opsi 1 = Berdasarkan Harga
+    // opsi 2 = Berdasarkan Nomor Kamar
+    // for (int i = 0; i < jumlah - 1; i++) {
+    //     for (int j = 0; j < jumlah - i - 1; j++) {
+            
+    //         bool tukar = false;
+            
+    //         // --- LOGIKA PEMBANDING ---
+    //         long nilaiKiri, nilaiKanan;
+
+    //         // Tentukan apa yang mau dibandingkan (Harga atau Nomor?)
+    //         if (opsi == 1) { 
+    //             nilaiKiri = arr[j].harga;
+    //             nilaiKanan = arr[j+1].harga;
+    //         } else { 
+    //             nilaiKiri = arr[j].nomor;
+    //             nilaiKanan = arr[j+1].nomor;
+    //         }
+
+    //         // Cek Ascending (Kecil ke Besar) atau Descending (Besar ke Kecil)
+    //         if (ascending) {
+    //             if (nilaiKiri > nilaiKanan) tukar = true;
+    //         } else {
+    //             if (nilaiKiri < nilaiKanan) tukar = true;
+    //         }
+
+    //         // --- LOGIKA SWAP (TUKAR POSISI) ---
+    //         if (tukar) {
+    //             Kamar temp = arr[j];   // Simpan data kiri di temp
+    //             arr[j] = arr[j + 1];   // Pindahkan kanan ke kiri
+    //             arr[j + 1] = temp;     // Masukkan temp ke kanan
+    //         }
+    //     }
+    // }    
 }
 
 // [AREA KERJA BAYIK]
