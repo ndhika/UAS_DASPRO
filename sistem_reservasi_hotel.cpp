@@ -17,7 +17,8 @@ struct Kamar {
 };
 struct Tanggal
 {
-    int hari;
+    string hari;
+    int tgl;
     int bulan;
     int tahun;
 };
