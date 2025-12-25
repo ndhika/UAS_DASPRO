@@ -25,7 +25,7 @@ struct Reservasi
 {
     Kamar kamar;
     Tanggal tanggalCheckIn;
-    int lamaMengnap;
+    int lamaMenginap;
     long totalBiaya;
 };
 
