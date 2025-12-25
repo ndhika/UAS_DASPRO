@@ -15,6 +15,19 @@ struct Kamar {
     int status;     // 0 = Kosong, 1 = Terisi
     string namaPemesan;// Nama pemesan
 };
+struct Tanggal
+{
+    int hari;
+    int bulan;
+    int tahun;
+};
+struct Reservasi
+{
+    Kamar kamar;
+    Tanggal tanggalCheckIn;
+    int lamaMengnap;
+    long totalBiaya;
+};
 
 const int MAX_KAMAR = 40;      // Kapasitas Gudang (Maksimal)
 Kamar hotel[MAX_KAMAR];         // Array Besar
@@ -52,9 +65,9 @@ int main() {
     do {
         cout << "\n=== SISTEM HOTEL (Data: " << jumlahData << "/" << MAX_KAMAR << ") ===" << endl;
         cout << "1. Daftar Kamar (Sorting)" << endl;
-        cout << "2. Check-In (Booking)" << endl;
-        cout << "3. Check-Out (Bayar)" << endl;
-        cout << "4. Tambah Kamar Baru" << endl; // <--- MENU BARU
+        cout << "2. Check-In (Reservasi)" << endl;
+        cout << "3. Check-Out (Batalkan)" << endl;
+        cout << "4. Tambah Kamar Baru" << endl;
         cout << "5. Keluar" << endl;
         cout << "Pilih menu: ";
         cin >> pilihan;
@@ -127,7 +140,7 @@ long hargaKamar (string tipe) // Harga otomatis berdasarkan tipe kamar agar data
         return 0; // Jika tipe salah ketik, harga 0
     }
 }
-// [AREA KERJA BAYIK]
+
 void dataKamar(Kamar arr[]) {
     // HARDCODE DATA (Index 0 sampai 4)
     // Format: {Nomor, Tipe, Harga, Status, Nama}
@@ -197,10 +210,9 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // 6. Update Counter Data
     jumlah++; 
     
-    cout << "===== Sukses! Data kamar berhasil disimpan. =====" << endl;
+    cout << "\n===== Sukses! Data kamar berhasil disimpan. =====" << endl;
 }
 
-// [AREA KERJA BAYIK]
 void bubbleSortKamar(Kamar arr[], int jumlah, bool ascending) {
     // LOGIKA SORTING:
     // Gunakan Nested Loop (While dalam While)
@@ -245,7 +257,6 @@ long hitungTotalRekursif(long hargaPerMalam, int durasi) {
     return 0; 
 }
 
-// [AREA KERJA MAS]
 void tampilkanDaftar(Kamar arr[], int jumlah) {
     if (jumlah == 0) {
         cout << "Belum ada data kamar." << endl;
