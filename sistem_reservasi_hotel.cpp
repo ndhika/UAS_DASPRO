@@ -98,37 +98,32 @@ int main() {
                 // 1. Input nomor kamar dicari
                 // 2. Searching Index (Looping cari hotel[i].nomor == input)
                 // 3. Jika ketemu: prosesBooking(&hotel[index_ketemu]);
-            {   // Kurung kurawal buka (Block Scope untuk deklarasi variabel)
-                
-                int nomorCari;
-                bool ketemu = false;
-
-                cout << "\n--- RESERVASI KAMAR ---" << endl;
-                cout << "Masukkan Nomor Kamar yang dicari: ";
-                cin >> nomorCari;
-
-                // 1. Searching (Looping)
-                for (int i = 0; i < jumlahData; i++) {
+                {   // Kurung kurawal buka (Block Scope untuk deklarasi variabel)
                     
-                    // Jika nomor cocok
-                    if (hotel[i].nomor == nomorCari) {
-                        
-                        ketemu = true; // Tandai ketemu
+                    int nomorCari;
+                    bool ketemu = false;
 
-                        // 2. Panggil Proses Booking
-                        // PENTING: Gunakan '&' untuk mengirim alamat memori array ke pointer
-                        prosesBooking(&hotel[i]);
-                        
-                        break; // Stop looping
+                    cout << "\n--- RESERVASI KAMAR ---" << endl;
+                    cout << "Masukkan Nomor Kamar yang dicari: ";
+                    cin >> nomorCari;
+
+                    // 1. Searching (Looping)
+                    int i = 0;
+                    do{
+                        if (hotel[i].nomor == nomorCari)
+                        {
+                            ketemu = true;
+                            prosesBooking(&hotel[i]);
+                            break;
+                        }
+                        i++;
+                    } while (i < jumlahData);
+
+                    // 3. Validasi Not Found
+                    if (!ketemu) {
+                        cout << ">> Error: Nomor kamar " << nomorCari << " tidak ditemukan." << endl;
                     }
-                }
-
-                // 3. Validasi Not Found
-                if (!ketemu) {
-                    cout << ">> Error: Nomor kamar " << nomorCari << " tidak ditemukan." << endl;
-                }
-
-            }   // Kurung kurawal tutup
+                }   // Kurung kurawal tutup
             break;
 
             case 3:
@@ -180,9 +175,9 @@ void dataKamar(Kamar arr[]) {
 
     Kamar hotel[5] = {
         {101, "Standard", hargaKamar("Standard"), 0, "-"},
-        {105, "Deluxe", hargaKamar("Deluxe"), 1, "Andhika"},
+        {105, "Deluxe", hargaKamar("Deluxe"), 0, "-"},
         {110, "Suite", hargaKamar("Suite"), 0, "-"},
-        {115, "Standard", hargaKamar("Standard"), 1, "Ayudhya"},
+        {115, "Standard", hargaKamar("Standard"), 0, "-"},
         {120, "Deluxe", hargaKamar("Deluxe"), 0, "-"}
     };
 
@@ -203,6 +198,7 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     // 3. Set default: arr[jumlah].status = 0; arr[jumlah].namaTamu = "-";
     
     // 4. JANGAN LUPA: jumlah++; (Menambah counter data)
+
     // 1. Cek Kapasitas Array
     if (jumlah >= maxKapasitas) {
         cout << ">> Peringatan: Kapasitas penyimpanan penuh! Tidak bisa tambah data." << endl;
@@ -215,6 +211,15 @@ void inputKamar(Kamar arr[], int &jumlah, int maxKapasitas) {
     cout << "Nomor Kamar : ";
     cin >> arr[jumlah].nomor;
 
+    int i = 0;
+    while (i < jumlah) {
+        if (arr[i].nomor == arr[jumlah].nomor) {
+            cout << ">> Peringatan: Nomor kamar sudah ada! Tidak bisa tambah data." << endl;
+            return;
+        }
+        i++;
+    }
+    
     // 3. Input Tipe Kamar (Validasi dengan Loop)
     cin.ignore(); // Membersihkan buffer sebelum getline
     do {
@@ -350,14 +355,14 @@ void prosesBooking(Kamar *ptrKamar) {
         ptrKamar->status = 1; 
 
         // --- CETAK STRUK ---
-        // cout << "\n================ STRUK RESERVASI ================" << endl;
-        // cout << "Kamar      : " << nota.kamar.nomor << " (" << nota.kamar.tipe << ")" << endl;
-        // cout << "Pemesan    : " << ptrKamar->namaPemesan << endl;
-        // cout << "Check-in   : " << nota.tanggalCheckIn.hari << ", " 
-        //      << nota.tanggalCheckIn.tgl << "/" << nota.tanggalCheckIn.bulan << "/" << nota.tanggalCheckIn.tahun << endl;
-        // cout << "Durasi     : " << nota.lamaMenginap << " Malam" << endl;
-        // cout << "TOTAL      : Rp " << nota.totalBiaya << endl;
-        // cout << "===================================================" << endl;
+        cout << "\n================ STRUK RESERVASI ================" << endl;
+        cout << "Kamar      : " << nota.kamar.nomor << " (" << nota.kamar.tipe << ")" << endl;
+        cout << "Pemesan    : " << ptrKamar->namaPemesan << endl;
+        cout << "Check-in   : " << nota.tanggalCheckIn.hari << ", " 
+            << nota.tanggalCheckIn.tgl << "/" << nota.tanggalCheckIn.bulan << "/" << nota.tanggalCheckIn.tahun << endl;
+        cout << "Durasi     : " << nota.lamaMenginap << " Malam" << endl;
+        cout << "TOTAL      : Rp " << nota.totalBiaya << endl;
+        cout << "===================================================" << endl;
         cout << "\nTerimakasih sudah mereservasi di hotel kami!" << endl;
 
     } else {
@@ -390,31 +395,33 @@ void prosesCheckOut(Kamar arr[], int jumlah) {
     //    - Reset Kamar (Status=0, Nama="-")
     int nomorCari;
     bool ketemu = false;
-    int i; // Index untuk menyimpan posisi kamar
+    int i = 0; 
 
     cout << "\n--- FORM CHECK-OUT & PEMBAYARAN ---" << endl;
     cout << "Masukkan Nomor Kamar : ";
     cin >> nomorCari;
 
-    // 1. LOOPING SEARCH (Mencari Index Kamar)
-    for (i = 0; i < jumlah; i++) {
-        if (arr[i].nomor == nomorCari) {
-            ketemu = true;
-            break; // Berhenti jika ketemu, nilai 'i' tersimpan
-        }
+    // 1. LOOPING SEARCH
+    if (jumlah > 0) { // Pastikan data tidak kosong sebelum loop
+        do {
+            if (arr[i].nomor == nomorCari) {
+                ketemu = true;
+                break; 
+            }
+            i++; 
+            
+        } while (i < jumlah);
     }
 
-    // 2. VALIDASI KAMAR DITEMUKAN ATAU TIDAK
+    // 2. VALIDASI
     if (!ketemu) {
         cout << ">> ERROR: Nomor kamar " << nomorCari << " tidak ditemukan!" << endl;
-        return; // Keluar dari prosedur
+        return; 
     }
 
     // 3. LOGIKA CHECK-OUT
-    // Kita gunakan pointer '&arr[i]' atau akses langsung 'arr[i]'
-    // Di sini kita akses langsung arraynya.
+    // Sekarang aman menggunakan arr[i] karena i adalah index yang benar
     
-    // Cek: Apakah kamarnya ada orangnya (Status == 1)?
     if (arr[i].status == 1) {
         
         int durasiRealisasi;
@@ -422,33 +429,24 @@ void prosesCheckOut(Kamar arr[], int jumlah) {
 
         cout << ">> DATA PEMESAN DITEMUKAN : " << arr[i].namaPemesan << endl;
         
-        // Input Durasi (Bisa jadi beda dengan rencana awal saat booking)
         cout << "   Lama Menginap : ";
         cin >> durasiRealisasi;
 
-        // Panggil Fungsi REKURSIF untuk hitung bayaran
+        // Pastikan fungsi hitungTotalRekursif sudah ada
         totalFinal = hitungTotalRekursif(arr[i].harga, durasiRealisasi);
 
-        // --- CETAK STRUK TAGIHAN AKHIR ---
+        // ... Cetak Tagihan (kode Anda sudah benar di bagian ini) ...
         cout << "\n================ TAGIHAN CHECK-OUT ================" << endl;
-        cout << "Kamar       : " << arr[i].nomor << " (" << arr[i].tipe << ")" << endl;
-        cout << "Pemesan     : " << arr[i].namaPemesan << endl;
-        cout << "Durasi      : " << durasiRealisasi << " Malam" << endl;
-        cout << "Harga/malam : Rp " << arr[i].harga << endl;
-        cout << "---------------------------------------------------" << endl;
         cout << "TOTAL BAYAR : Rp " << totalFinal << endl;
-        cout << "===================================================" << endl << endl;
-        cout << "Terimakasih telah menginap di hotel kami!" << endl;
+        cout << "===================================================" << endl;
 
-        // --- PENTING: RESET DATA KAMAR (MENGOSONGKAN KAMAR) ---
-        arr[i].status = 0;          // Set jadi Kosong
-        arr[i].namaPemesan = "-";   // Hapus nama tamu
+        // RESET DATA
+        arr[i].status = 0;          
+        arr[i].namaPemesan = "-";   
         
         cout << "\n>> Check-out BERHASIL! Kamar " << arr[i].nomor << " kini statusnya KOSONG." << endl;
 
-    } 
-    else {
-        // Jika Status == 0 (Masih Kosong)
-        cout << ">> ERROR: Tidak bisa Check-Out. Kamar " << arr[i].nomor << " memang sedang KOSONG." << endl;
+    } else {
+        cout << ">> ERROR: Kamar " << arr[i].nomor << " statusnya sudah KOSONG." << endl;
     }
 }
