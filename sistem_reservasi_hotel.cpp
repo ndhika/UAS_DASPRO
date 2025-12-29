@@ -291,7 +291,7 @@ void prosesBooking(Kamar *ptrKamar) {
         ptrKamar->status = 1; 
 
         // --- STRUK ---
-        cout << "\n================ STRUK RESERVASI ================" << endl;
+        cout << "\n================ STRUK CHECK-IN ================" << endl;
         cout << "Kamar      : " << nota.kamar.nomor << " (" << nota.kamar.tipe << ")" << endl;
         cout << "Pemesan    : " << ptrKamar->namaPemesan << endl;
         cout << "Check-in   : " << nota.tanggalCheckIn.hari << ", " 
@@ -356,7 +356,7 @@ void prosesCheckOut(Kamar arr[], int jumlah) {
         cin >> durasiRealisasi;
         totalFinal = hitungTotalRekursif(arr[i].harga, durasiRealisasi);
 
-        cout << "\n================ TAGIHAN CHECK-OUT ================" << endl;
+        cout << "\n================ STRUK CHECK-OUT ================" << endl;
         cout << "TOTAL BAYAR : Rp " << totalFinal << endl;
         cout << "===================================================" << endl;
         arr[i].status = 0;          
