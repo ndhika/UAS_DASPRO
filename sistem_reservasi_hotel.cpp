@@ -143,13 +143,13 @@ long hargaKamar (string tipe)
 
 // ------------------------------------------------------------
 // JUDUL     : dataKamar
-// KAMUS     : arr[] (parameter output), hotel (lokal array), i
+// KAMUS     : arr[] (parameter output), dataDummy (lokal array), i
 // DISKRIPSI : Mengisi array utama dengan 5 data dummy awal
 //             agar program tidak kosong saat dijalankan.
 // ------------------------------------------------------------
 void dataKamar(Kamar arr[]) {
     // Format: {Nomor, Tipe, Harga, Status, Nama}
-    Kamar hotel[5] = {
+    Kamar dataDummy[5] = {
         {101, "Standard", hargaKamar("Standard"), 0, "-"},
         {105, "Deluxe", hargaKamar("Deluxe"), 0, "-"},
         {110, "Suite", hargaKamar("Suite"), 0, "-"},
@@ -159,7 +159,7 @@ void dataKamar(Kamar arr[]) {
 
     int jumlahData = 0;
     do {
-        arr[jumlahData] = hotel[jumlahData];
+        arr[jumlahData] = dataDummy[jumlahData];
         jumlahData++;
     } while (jumlahData < 5);
 }
